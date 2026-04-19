@@ -7,7 +7,6 @@ public class MyPlayerInput : NetworkBehaviour
 {
     [SerializeField]
     private InputActionReference m_movementReference;
-
     public Vector2 MovementInput { get; private set; }
     public event Action OnPickUpPressed;
     public event Action OnInteractPressed;
@@ -15,12 +14,6 @@ public class MyPlayerInput : NetworkBehaviour
     private Vector2 m_rawInput;
     [SerializeField]
     private float m_smoothTime = 0.1f;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
@@ -30,12 +23,13 @@ public class MyPlayerInput : NetworkBehaviour
             return;
         }
         m_rawInput = m_movementReference.action.ReadValue<Vector2>();
-        MovementInput = Vector2.MoveTowards(MovementInput, m_rawInput, Time.deltaTime / m_smoothTime);
-        if (Keyboard.current.eKey.wasPressedThisFrame)
+        MovementInput = Vector2.MoveTowards
+            (MovementInput, m_rawInput, Time.deltaTime / m_smoothTime);
+        if(Keyboard.current.eKey.wasPressedThisFrame)
         {
             OnPickUpPressed?.Invoke();
         }
-        if (Mouse.current.leftButton.wasPressedThisFrame)
+        if(Mouse.current.leftButton.wasPressedThisFrame)
         {
             OnInteractPressed?.Invoke();
         }
