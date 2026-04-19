@@ -4,7 +4,10 @@ using UnityEngine;
 
 public abstract class PickableBase : NetworkBehaviour, IInteractable
 {
-    protected NetworkVariable<bool> m_isAvailable = new(true, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    protected NetworkVariable<bool> m_isAvailable = new(
+        true,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Server);
 
     [SerializeField] private SelectionOutline m_outline;
     [SerializeField] private ObjectType m_objectType;
@@ -34,33 +37,20 @@ public abstract class PickableBase : NetworkBehaviour, IInteractable
 
     public void PickUp()
     {
-        if (IsServer == false)
+        if (IsServer  == false)
         {
             return;
         }
         m_isAvailable.Value = false;
-        OnPickUp();
+        OnPickedUp();
     }
 
-    protected abstract void OnPickUp();
+    protected abstract void OnPickedUp();
+
 
     public void ToggleSelection(bool isSelected)
     {
-        if(m_outline != null)
-        {
+        if (m_outline != null)
             m_outline.ToggleOutline(isSelected);
-        }
-    }
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
